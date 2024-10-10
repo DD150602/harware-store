@@ -10,5 +10,11 @@ class Sale extends Model
   protected $primaryKey = 'sale_id';
   protected $useAutoIncrement = true;
   protected $returnType = 'object';
+  protected $useSoftDeletes = true;
   protected $allowedFields = ['sale_total', 'sale_date', 'client_id', 'user_id'];
+  protected $useTimestamps = true;
+  protected $dateFormat = 'datetime';
+  protected $createdField = 'sale_created_at';
+  protected $updatedField = 'sale_updated_at';
+  protected $deletedField = 'sale_deleted_at';
 }
