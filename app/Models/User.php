@@ -10,7 +10,13 @@ class User extends Model
   protected $primaryKey = 'user_id';
   protected $useAutoIncrement = true;
   protected $returnType = 'object';
+  protected $useSoftDeletes = true;
   protected $allowedFields = ['user_id', 'user_name', 'user_lastname', 'user_email', 'user_username', 'user_password', 'role_id', 'user_status', 'user_annotation'];
+  protected $useTimestamps = true;
+  protected $dateFormat = 'datetime';
+  protected $createdField = 'user_created_at';
+  protected $updatedField = 'user_updated_at';
+  protected $deletedField = 'user_deleted_at';
 
   public function createUser($data)
   {
