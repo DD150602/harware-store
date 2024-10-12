@@ -14,7 +14,7 @@ class Purchase extends Model
   protected $allowedFields = ['purchase_total', 'purchase_date', 'supplier_id', 'user_id'];
   protected $useTimestamps = true;
   protected $dateFormat = 'datetime';
-  protected $createdField = 'purchase_created_at';
+  protected $createdField = 'purchase_date';
   protected $updatedField = 'purchase_updated_at';
   protected $deletedField = 'purchase_deleted_at';
 }
