@@ -87,10 +87,9 @@ CREATE TABLE products (
 CREATE TABLE sales (
     sale_id INT PRIMARY KEY AUTO_INCREMENT,
     sale_total DECIMAL(10, 2) NOT NULL,
-    sale_date DATE NOT NULL,
+    sale_date DATETIME NOT NULL,
     client_id INT NOT NULL,
     user_id INT NOT NULL,
-    sale_created_at DATETIME,
     sale_updated_at DATETIME,
     sale_deleted_at DATETIME,
     FOREIGN KEY (client_id) REFERENCES clients (client_id) ON DELETE CASCADE,
@@ -115,10 +114,9 @@ CREATE TABLE sale_details (
 CREATE TABLE purchases (
     purchase_id INT PRIMARY KEY AUTO_INCREMENT,
     purchase_total DECIMAL(10, 2) NOT NULL,
-    purchase_date DATE NOT NULL,
+    purchase_date DATETIME NOT NULL,
     supplier_id INT NOT NULL,
     user_id INT NOT NULL,
-    purchase_created_at DATETIME,
     purchase_updated_at DATETIME,
     purchase_deleted_at DATETIME,
     FOREIGN KEY (supplier_id) REFERENCES suppliers (supplier_id) ON DELETE CASCADE,
