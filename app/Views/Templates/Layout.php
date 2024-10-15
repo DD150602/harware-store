@@ -16,6 +16,10 @@
 </head>
 
 <body>
+  <?php if (service('uri')->getSegment(1) != '') {
+    echo $this->include('Templates/Components/Sidebar');
+  }
+  ?>
 
   <?= $this->renderSection('content') ?>
 
