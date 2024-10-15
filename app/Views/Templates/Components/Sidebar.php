@@ -13,7 +13,7 @@
 
       <!-- Logout -->
       <hr class="my-3"> <!-- Divider -->
-      <a href="" class="nav-link text-danger py-2">
+      <a href="<?php echo base_url('logout'); ?>" class="nav-link text-danger py-2">
         <i class="fas fa-sign-out-alt"></i> Logout
       </a>
     </nav>
