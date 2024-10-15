@@ -9,3 +9,4 @@ $routes->get('/', 'Login::index');
 $routes->post('/login', 'Login::login');
 
 $routes->get('/Products', 'Products::index');
+$routes->get('/Products/ProductDetails/(:num)', 'Products::product/$1');

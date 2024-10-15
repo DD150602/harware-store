@@ -24,4 +24,10 @@ class Products extends BaseController
     return view('Products', $this->data);
   }
 
+  public function product($id)
+  {
+
+    $this->data['product'] = $this->products->getProduct($id);
+    return view('ProductDetails', $this->data);
+  }
 }

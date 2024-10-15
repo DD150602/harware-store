@@ -25,4 +25,13 @@ class Product extends Model
       ->findAll();
   }
 
+  public function getProduct($id)
+  {
+    return $this->select('product_name, product_description, product_price, product_stock, product_id, supplier_name, category_name, products.category_id, products.supplier_id')
+      ->join('suppliers', 'products.supplier_id = suppliers.supplier_id')
+      ->join('categories', 'products.category_id = categories.category_id')
+      ->where('product_id', $id)
+      ->where('product_status', true)
+      ->first();
+  }
 }
