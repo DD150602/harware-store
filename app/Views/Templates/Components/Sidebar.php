@@ -6,7 +6,7 @@
 
     <nav class="nav flex-column">
       <!-- Products -->
-      <a href="" class="nav-link text-dark py-2">Products</a>
+      <a href="<?= base_url('Products') ?>" class="nav-link text-dark py-2">Products</a>
 
       <!-- Settings -->
       <a href="" class="nav-link text-dark py-2">Settings</a>
