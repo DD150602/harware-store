@@ -7,3 +7,5 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Login::index');
 $routes->post('/login', 'Login::login');
+
+$routes->get('/Products', 'Products::index');
