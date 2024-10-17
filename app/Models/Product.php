@@ -34,4 +34,17 @@ class Product extends Model
       ->where('product_status', true)
       ->first();
   }
+
+  public function updateProduct(array $data): int
+  {
+    $productId = $data['product_id'];
+    unset($data['product_id']);
+    $update = $this->update($productId, $data);
+    if ($update) {
+      return 1;
+    } else {
+      return 2;
+    }
+  }
+
 }

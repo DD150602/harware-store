@@ -11,3 +11,4 @@ $routes->get('/logout', 'Login::logout');
 
 $routes->get('/Products', 'Products::index');
 $routes->get('/Products/ProductDetails/(:num)', 'Products::product/$1');
+$routes->post('/Products/update/', 'Products::update');
