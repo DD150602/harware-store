@@ -23,6 +23,11 @@
 
 <main class="container mt-5">
   <h2 class="text-center mb-5">Product Details</h2>
+  <div class="d-flex justify-content-end">
+    <!-- Button to trigger Delete Product modal -->
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteProductModal">Delete product</button>
+  </div>
+
 
   <!-- Product Details Card -->
   <div class="row justify-content-center">
@@ -105,5 +110,31 @@
   </div>
 </main>
 
+<!-- Delete Product Modal -->
+<div class="modal fade" id="deleteProductModal" tabindex="-1" aria-labelledby="deleteProductModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteProductModalLabel">Delete Product</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Delete form -->
+        <?php echo form_open('/Products/delete/' . $product->product_id); ?>
+        <p>Are you sure about deleting this product?</p>
+        <div class="mb-3">
+          <label for="product_annotation" class="form-label">Reason for deletion</label>
+          <textarea class="form-control" id="product_annotation" name="product_annotation" rows="4" placeholder="Please provide a reason for deletion"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <!-- Submit the form -->
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <?php echo form_close(); ?>
+      </div>
+    </div>
+  </div>
+</div>
 
 <?= $this->endSection() ?>

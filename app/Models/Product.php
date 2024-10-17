@@ -47,4 +47,16 @@ class Product extends Model
     }
   }
 
+  public function deleteProduct($data)
+  {
+    $productId = $data['product_id'];
+    unset($data['product_id']);
+    $this->update($productId, $data);
+    $result = $this->delete($productId);
+    if ($result) {
+      return 1;
+    } else {
+      return 2;
+    }
+  }
 }

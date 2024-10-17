@@ -68,4 +68,24 @@ class Products extends BaseController
     }
   }
 
+  public function delete($id)
+  {
+    $rules = [
+      'product_annotation' => [
+        'rules' => 'string',
+        'errors' => ['string' => 'The product annotation field must contain only letters'],
+      ]
+    ];
+    if (!$this->validate($rules)) {
+      return redirect()->back()->with('message', 2)->withInput();
+    } else {
+      $data = [
+        'product_id' => $id,
+        'product_status' => false,
+        'product_annotation' => $this->request->getPost('product_annotation'),
+      ];
+      $responce = $this->products->deleteProduct($data);
+      return redirect()->to('/Products')->with('message', $responce);
+    }
+  }
 }
