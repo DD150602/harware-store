@@ -17,4 +17,9 @@ class CategoryModel extends Model
   protected $createdField = 'category_created_at';
   protected $updatedField = 'category_updated_at';
   protected $deletedField = 'category_deleted_at';
+
+  public function getCategories()
+  {
+    return $this->findAll();
+  }
 }

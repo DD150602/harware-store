@@ -45,8 +45,9 @@ class Login extends BaseController
 
       $login_info = $this->user->login($data);
 
-      if ($login_info['login'] && $login_info['user_role'] == 'Superadmin') {
-        return redirect()->to('/admin');
+      if ($login_info['login']) {
+        $this->session->set('login_info', $login_info);
+        return redirect()->to('/Products');
       } else {
         return redirect()->to('/')->with('message', $login_info['message']);
       }

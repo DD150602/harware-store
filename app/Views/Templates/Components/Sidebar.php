@@ -6,14 +6,14 @@
 
     <nav class="nav flex-column">
       <!-- Products -->
-      <a href="" class="nav-link text-dark py-2">Products</a>
+      <a href="<?= base_url('Products') ?>" class="nav-link text-dark py-2">Products</a>
 
       <!-- Settings -->
       <a href="" class="nav-link text-dark py-2">Settings</a>
 
       <!-- Logout -->
       <hr class="my-3"> <!-- Divider -->
-      <a href="" class="nav-link text-danger py-2">
+      <a href="<?php echo base_url('logout'); ?>" class="nav-link text-danger py-2">
         <i class="fas fa-sign-out-alt"></i> Logout
       </a>
     </nav>

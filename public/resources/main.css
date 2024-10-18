@@ -1,0 +1,27 @@
+body {
+  display: flex;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+#sidebar {
+  min-width: 250px;
+  max-width: 250px;
+  height: 100vh;
+  background-color: #343a40;
+  color: #fff;
+}
+
+#sidebar a {
+  color: #fff;
+  text-decoration: none;
+}
+
+#sidebar .nav-link.active {
+  background-color: #007bff;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 20px;
+}
