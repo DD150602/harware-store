@@ -8,6 +8,9 @@
       <!-- Products -->
       <a href="<?= base_url('Products') ?>" class="nav-link text-dark py-2">Products</a>
 
+      <!-- Users -->
+      <a href="<?= base_url('Users') ?>" class="nav-link text-dark py-2">Users</a>
+
       <!-- Settings -->
       <a href="" class="nav-link text-dark py-2">Settings</a>
 
