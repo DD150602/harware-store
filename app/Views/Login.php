@@ -36,7 +36,7 @@
 
         <div class="mb-3">
           <label for="user_password" class="form-label">Password</label>
-          <input type="user_password" class="form-control" id="user_password" name="user_password" placeholder="Enter your password" value="<?php echo set_value('user_password'); ?>">
+          <input type="password" class="form-control" id="user_password" name="user_password" placeholder="Enter your password" value="<?php echo set_value('user_password'); ?>">
           <?php echo validation_show_error('user_password'); ?>
         </div>
 
