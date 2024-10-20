@@ -26,28 +26,20 @@ class User extends Model
       ->findAll();
   }
 
+  public function createUser(array $data):int
   {
     if ($this->validateUsername($data['user_username'])) {
-      return [
-        'create' => false,
-        'message' => 'El nombre de usuario ya se encuentra registrado'
-      ];
+      return 3;
     }
 
     if ($this->validateEmail($data['user_email'])) {
-      return [
-        'create' => false,
-        'message' => 'El email ya se encuentra registrado'
-      ];
+      return 4;
     }
 
     $hashedPassword = password_hash($data['user_password'], PASSWORD_BCRYPT, ['cost' => 10]);
     $data['user_password'] = $hashedPassword;
     $this->insert($data);
-    return [
-      'create' => true,
-      'message' => 'Usuario creado correctamente'
-    ];
+    return 1;
   }
 
   public function login($data)

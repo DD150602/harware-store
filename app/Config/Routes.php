@@ -15,3 +15,4 @@ $routes->post('/Products/update/', 'Products::update');
 $routes->post('/Products/delete/(:num)', 'Products::delete/$1');
 
 $routes->get('/Users', 'Users::index');
+$routes->post('/Users/create/', 'Users::create');
