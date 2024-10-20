@@ -18,7 +18,14 @@ class User extends Model
   protected $updatedField = 'user_updated_at';
   protected $deletedField = 'user_deleted_at';
 
-  public function createUser($data)
+  public function getAllUsers()
+  {
+    return  $this->select('user_id, user_name, role_name, user_created_at')
+      ->join('roles', 'users.role_id = roles.role_id')
+      ->where('user_status', true)
+      ->findAll();
+  }
+
   {
     if ($this->validateUsername($data['user_username'])) {
       return [
