@@ -16,4 +16,11 @@ class RolesModel extends Model
   protected $createdField = 'role_created_at';
   protected $updatedField = 'role_updated_at';
   protected $deletedField = 'role_deleted_at';
+
+  public function getAllRoles()
+  {
+    return $this->select('role_id, role_name')
+      ->where('role_name  !=', 'Superadmin')
+      ->findAll();
+  }
 }
