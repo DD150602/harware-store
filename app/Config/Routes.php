@@ -19,3 +19,9 @@ $routes->get('/Sales/SalesDetails/(:num)', 'Sales::sales/$1');
 $routes->get('/Sales/create', 'Sales::createView');
 $routes->post('/Sales/create/newSale', 'Sales::create');
 $routes->post('/Sales/clientInfo', 'Sales::clientInfo');
+
+$routes->get('/Clients', 'Clients::index');
+$routes->get('/Clients/ClientDetails/(:num)', 'Clients::client/$1');
+$routes->post('/Clients/create', 'Clients::newClient');
+$routes->post('/Clients/update', 'Clients::update');
+$routes->post('/Clients/delete/(:num)', 'Clients::delete/$1');

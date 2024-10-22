@@ -18,6 +18,11 @@ class Client extends Model
   protected $updatedField = 'client_updated_at';
   protected $deletedField = 'client_deleted_at';
 
+  public function getAllClients()
+  {
+    return $this->select('client_id, client_name, client_phone, client_address')->findAll();
+  }
+
   public function getClientByPhone(array $data)
   {
     return $this->select('client_id, client_name, client_phone, client_address')
