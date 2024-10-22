@@ -16,4 +16,6 @@ $routes->post('/Products/delete/(:num)', 'Products::delete/$1');
 
 $routes->get('/Sales', 'Sales::index');
 $routes->get('/Sales/SalesDetails/(:num)', 'Sales::sales/$1');
-$routes->post('/Sales/create', 'Sales::create');
+$routes->get('/Sales/create', 'Sales::createView');
+$routes->post('/Sales/create/newSale', 'Sales::create');
+$routes->post('/Sales/clientInfo', 'Sales::clientInfo');

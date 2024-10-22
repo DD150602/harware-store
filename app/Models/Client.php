@@ -17,4 +17,10 @@ class Client extends Model
   protected $createdField = 'client_created_at';
   protected $updatedField = 'client_updated_at';
   protected $deletedField = 'client_deleted_at';
+
+  public function getClientByPhone(array $data)
+  {
+    return $this->select('client_id, client_name, client_phone, client_address')
+      ->where('client_phone', $data['client_phone'])->first();
+  }
 }
