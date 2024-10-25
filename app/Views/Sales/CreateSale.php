@@ -1,5 +1,88 @@
 <?= $this->extend('Templates/Layout') ?>
 
+<?= $this->section('scripts') ?>
+<script>
+  let totalAmount = 0;
+  const productList = []
+
+  function addProduct() {
+    const productSelected = document.getElementById('product_select')
+    const optionSelected = productSelected.options[productSelected.selectedIndex]
+    const product_id = optionSelected.value
+    const productName = optionSelected.text.split('-')[0].trim()
+    const sale_unit_price = parseFloat(optionSelected.getAttribute('data-price'))
+    const sale_quantity = parseInt(document.getElementById('product_quantity').value)
+    const productTotal = sale_unit_price * sale_quantity
+
+    const product = {
+      product_id,
+      productName,
+      sale_unit_price,
+      sale_quantity,
+      productTotal
+    }
+    productList.push(product)
+
+    const tableBody = document.getElementById('productTable').getElementsByTagName('tbody')[0]
+    const newRow = tableBody.insertRow()
+
+    newRow.innerHTML = `
+      <td>${product.productName}</td>
+      <td>${product.sale_unit_price}</td>
+      <td>${product.sale_quantity}</td>
+      <td>${product.productTotal}</td>
+    `
+
+    totalAmount += product.productTotal
+    document.getElementById('totalPrice').innerHTML = totalAmount
+    document.getElementById('product_quantity').value = 0
+    productSelected.selectedIndex = 0
+  }
+
+  function finishSelling() {
+    if (productList.length > 0) {
+      fetch('<?= base_url('/Sales/create/newSale') ?>', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            productList,
+            totalAmount: parseFloat(document.getElementById('totalPrice').textContent),
+            clientId: '<?php if (!empty($client_info)) echo $client_info->client_id ?>'
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            Swal.fire({
+              icon: 'success',
+              title: 'Success',
+              text: 'Sale completed successfully'
+            })
+            document.getElementById('totalPrice').innerHTML = 0
+            productList.length = 0
+            document.getElementById('productTable').getElementsByTagName('tbody')[0].innerHTML = ''
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'error',
+              text: 'Sale failed Try again'
+            })
+          }
+        })
+        .catch(error => {
+          Swal.fire({
+            icon: 'error',
+            title: 'error',
+            text: 'Something went wrong Try again later'
+          })
+        })
+    }
+  }
+</script>
+<?= $this->endSection() ?>
+
 <?= $this->section('content') ?>
 
 <main class="main-content">
@@ -11,7 +94,7 @@
   <!-- Two Sections: User Info and Product Selection -->
   <div class="row">
     <!-- Section 1: Client Information -->
-    <div class="col-md-6 mb-4">
+    <section class="col-md-6 mb-4">
       <div class="card">
         <div class="card-header">
           Client Information
@@ -56,62 +139,72 @@
           <?php endif; ?>
         </div>
       </div>
-    </div>
+    </section>
 
     <!-- Section 2: Product Selection -->
-    <div class="col-md-6 mb-4">
+    <section class="col-md-6 mb-4">
       <div class="card">
         <div class="card-header">
           Select Products
         </div>
         <div class="card-body">
-          <form id="addProductForm">
-            <div class="mb-3">
-              <label for="product_select" class="form-label">Select Product</label>
-              <select class="form-select" id="product_select" required <?php echo empty($client_info) ? 'disabled' : ''; ?>>
-                <option value="" selected disabled>Select a product</option>
-                <?php if (!empty($products)) : ?>
-                  <?php foreach ($products as $product) : ?>
-                    <option value="<?php echo $product->product_id; ?>"><?php echo $product->product_name; ?> - $<?php echo $product->product_price; ?></option>
-                  <?php endforeach; ?>
-                <?php endif; ?>
-              </select>
-            </div>
+          <div class="mb-3">
+            <label for="product_select" class="form-label">Select Product</label>
+            <select class="form-select" id="product_select" name="product_select" required <?php echo empty($client_info) ? 'disabled' : ''; ?>>
+              <option value="" selected disabled>Select a product</option>
+              <?php if (!empty($products)) : ?>
+                <?php foreach ($products as $product) : ?>
+                  <option value="<?php echo $product->product_id; ?>" data-price="<?php echo $product->product_price; ?>"><?php echo $product->product_name; ?> - $<?php echo $product->product_price; ?></option>
+                <?php endforeach; ?>
+              <?php endif; ?>
+            </select>
+          </div>
 
-            <!-- Product Quantity -->
-            <div class="mb-3">
-              <label for="product_quantity" class="form-label">Quantity</label>
-              <input type="number" class="form-control" id="product_quantity" name="product_quantity" min="1" required <?php echo empty($client_info) ? 'disabled' : ''; ?>>
-            </div>
+          <!-- Product Quantity -->
+          <div class="mb-3">
+            <label for="product_quantity" class="form-label">Quantity</label>
+            <input type="number" class="form-control" id="product_quantity" name="product_quantity" min="1" required <?php echo empty($client_info) ? 'disabled' : ''; ?>>
+          </div>
 
-            <!-- Add Product Button -->
-            <div class="d-flex justify-content-end">
-              <button type="button" class="btn btn-success" id="addProductBtn" <?php echo empty($client_info) ? 'disabled' : ''; ?>>Add Product</button>
-            </div>
-          </form>
+          <!-- Add Product Button -->
+          <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-success" id="addProductBtn" <?php echo empty($client_info) ? 'disabled' : ''; ?> onclick="addProduct()">Add Product</button>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   </div>
 
   <!-- Product List and Total Amount -->
   <section class="row">
-    <div class="col-md-12">
-      <div class="card">
-        <div class="card-body">
-          <h4 class="card-title">Products Added</h4>
-          <ul class="list-group mb-3" id="product_list">
-            <!-- Dynamic product items will be added here -->
-          </ul>
+    <div class="container mt-4">
+      <div class="product-list">
+        <h2 class="mb-4">Product List</h2>
 
-          <!-- Total -->
-          <h5 class="text-end">Total: $<span id="total_amount">0</span></h5>
+        <!-- Bootstrap styled table -->
+        <table id="productTable" class="table table-striped table-hover table-bordered">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">Product Name</th>
+              <th scope="col">Price</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Dynamic product rows will be added here -->
+          </tbody>
+        </table>
 
-          <!-- Action Buttons -->
-          <div class="d-flex justify-content-between">
-            <button class="btn btn-danger" id="cancelSaleBtn" <?php echo empty($client_info) ? 'disabled' : ''; ?>>Cancel Sale</button>
-            <button class="btn btn-primary" id="finishSaleBtn" <?php echo empty($client_info) ? 'disabled' : ''; ?>>Finish Sale</button>
-          </div>
+        <!-- Total Price section -->
+        <div class="total-section d-flex justify-content-end mt-3">
+          <strong>Total Price: $<span id="totalPrice" class="ms-2">0.00</span></strong>
+        </div>
+
+        <!-- Buttons Section -->
+        <div class="button-section d-flex justify-content-between mt-4">
+          <button class="btn btn-danger" id="cancelSale">Cancel Sale</button>
+          <button class="btn btn-success" id="finishSale" onclick="finishSelling()">Finish Sale</button>
         </div>
       </div>
     </div>
