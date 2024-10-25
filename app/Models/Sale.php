@@ -25,4 +25,13 @@ class Sale extends Model
       ->join('users', 'sales.user_id = users.user_id')
       ->findAll();
   }
+
+  public function getSaleById($saleId)
+  {
+    return $this->select('sales.sale_id, sale_total, sale_date, clients.client_name, users.user_name')
+      ->join('clients', 'sales.client_id = clients.client_id')
+      ->join('users', 'sales.user_id = users.user_id')
+      ->where('sales.sale_id', $saleId)
+      ->first();
+  }
 }

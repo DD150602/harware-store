@@ -29,6 +29,13 @@ class Sales extends BaseController
     return view('Sales/Sales', $this->data);
   }
 
+  public function sales($id)
+  {
+    $this->data['sale'] = $this->sale->getSaleById($id);
+    $this->data['sale_details'] = $this->saleDetails->getSaleDetailsBySaleId($id);
+    return view('Sales/SaleDetails', $this->data);
+  }
+
   public function createView()
   {
     return view('Sales/CreateSale');

@@ -30,7 +30,7 @@
                 <strong>Client:</strong> <?php echo $sale->client_name; ?><br>
                 <strong>user:</strong> <?php echo $sale->user_name; ?><br>
               </p>
-              <a href="<?php echo base_url('/sales/saleDetails/' . $sale->sale_id) ?>" class="btn btn-outline-primary">sale details</a>
+              <a href="<?php echo base_url('/Sales/SalesDetails/' . $sale->sale_id) ?>" class="btn btn-outline-primary">sale details</a>
             </div>
           </div>
         </div>
