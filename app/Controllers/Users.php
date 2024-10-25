@@ -23,6 +23,12 @@ class Users extends BaseController
     return view('Users/Users', $this->data);
   }
 
+  public function user($id)
+  {
+    $this->data['user'] = $this->users->getUser($id);
+    return view('Users/UserDetails', $this->data);
+  }
+
   public function create()
   {
     $rules = [

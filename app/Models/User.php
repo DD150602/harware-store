@@ -26,7 +26,16 @@ class User extends Model
       ->findAll();
   }
 
-  public function createUser(array $data):int
+  public function getUser($id)
+  {
+    return $this->select('user_id, user_name, user_lastname, user_email, user_username, users.role_id, role_name, user_status')
+      ->join('roles', 'users.role_id = roles.role_id')
+      ->where('user_id', $id)
+      ->where('user_status', true)
+      ->first();
+  }
+
+  public function createUser(array $data): int
   {
     if ($this->validateUsername($data['user_username'])) {
       return 3;
