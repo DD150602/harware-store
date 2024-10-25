@@ -4,9 +4,9 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class SaleDetail extends Model
+class SaleDetails extends Model
 {
-  protected $table = 'sale_detail';
+  protected $table = 'sale_details';
   protected $primaryKey = 'sale_detail_id';
   protected $useAutoIncrement = true;
   protected $returnType = 'object';
