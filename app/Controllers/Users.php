@@ -128,4 +128,27 @@ class Users extends BaseController
     }
   }
 
+  public function delete($id)
+  {
+    $rules = [
+      'user_annotation' => [
+        'rules' => 'required',
+        'errors' => [
+          'required' => 'The annotation field is required'
+        ]
+      ]
+    ];
+
+    if (!$this->validate($rules)) {
+      return redirect()->back()->with('message', 2)->withInput();
+    }else{
+      $data = [
+        'user_id' => $id,
+        'user_status' => false,
+        'user_annotation' => $this->request->getPost('user_annotation')
+      ];
+      $responce = $this->users->deleteUser($data);
+      return redirect()->to('/Users')->with('message', $responce);
+    }
+  }
 }

@@ -57,6 +57,18 @@ class User extends Model
     return 1;
   }
 
+  public function deleteUser($data)
+  {
+    $userId = $data['user_id'];
+    unset($data['user_id']);
+    $this->update($userId, $data);
+    $result = $this->delete($userId);
+    if ($result) {
+      return 5;
+    } else {
+      return 2;
+    }
+  }
 
   public function login($data)
   {

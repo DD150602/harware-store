@@ -27,6 +27,12 @@
       title: 'Invalid email',
       text: 'The email is alreay taken, try another one'
     })
+  } else if (message === 5) {
+    Swal.fire({
+      icon: 'success',
+      title: 'Success',
+      text: 'User deleted successfully'
+    })
   }
 </script>
 <?= $this->endSection() ?>

@@ -18,3 +18,4 @@ $routes->get('/Users', 'Users::index');
 $routes->get('/Users/UserDetails/(:num)', 'Users::user/$1');
 $routes->post('/Users/create/', 'Users::create');
 $routes->post('/Users/update/(:num)', 'Users::update/$1');
+$routes->post('/Users/delete/(:num)', 'Users::delete/$1');
