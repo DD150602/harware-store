@@ -8,8 +8,7 @@
       <ul class="navbar-nav me-auto">
       </ul>
       <span class="navbar-text">
-        Welcome, <?php $username = session('login_info') ? session('login_info')['user_name'] : '';
-                  echo 'user'; ?>
+        Welcome, <?php echo session('login_info') ? session('login_info')['user_username'] : '' ?>
       </span>
     </div>
   </div>
