@@ -17,3 +17,4 @@ $routes->post('/Products/delete/(:num)', 'Products::delete/$1');
 $routes->get('/Users', 'Users::index');
 $routes->get('/Users/UserDetails/(:num)', 'Users::user/$1');
 $routes->post('/Users/create/', 'Users::create');
+$routes->post('/Users/update/(:num)', 'Users::update/$1');

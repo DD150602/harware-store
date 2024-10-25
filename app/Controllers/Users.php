@@ -82,4 +82,50 @@ class Users extends BaseController
       return redirect()->to('/Users')->with('message', $responce);
     }
   }
+
+  public function update($id)
+  {
+    $rules = [
+      'user_name' => [
+        'rules' => 'required',
+        'errors' => [
+          'required' => 'The user name field is required'
+        ]
+      ],
+      'user_lastname' => [
+        'rules' => 'required',
+        'errors' => [
+          'required' => 'The last name field is required'
+        ]
+      ],
+      'user_email' => [
+        'rules' => 'required|valid_email',
+        'errors' => [
+          'required' => 'The email field is required',
+          'valid_email' => 'The email field must contain a valid email address',
+        ]
+      ],
+      'user_username' => [
+        'rules' => 'required',
+        'errors' => [
+          'required' => 'The username field is required',
+        ]
+      ],
+      'role_id' => [
+        'rules' => 'required',
+        'errors' => [
+          'required' => 'The role field is required'
+        ]
+      ]
+    ];
+
+    if (!$this->validate($rules)) {
+      return redirect()->back()->with('message', 2)->withInput();
+    } else {
+      $data = $this->request->getPost();
+      $responce = $this->users->updateUser($id, $data);
+      return redirect()->back()->with('message', $responce);
+    }
+  }
+
 }

@@ -51,6 +51,13 @@ class User extends Model
     return 1;
   }
 
+  public function updateUser(int $id, array $data): int
+  {
+    $this->update($id, $data);
+    return 1;
+  }
+
+
   public function login($data)
   {
     $user = $this->select('user_username, role_name, user_password, user_id')
