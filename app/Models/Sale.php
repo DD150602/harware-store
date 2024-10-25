@@ -17,4 +17,12 @@ class Sale extends Model
   protected $createdField = 'sale_date';
   protected $updatedField = 'sale_updated_at';
   protected $deletedField = 'sale_deleted_at';
+
+  public function getAllSales()
+  {
+    return $this->select('sale_id, sale_total, sale_date, clients.client_name, users.user_name')
+      ->join('clients', 'sales.client_id = clients.client_id')
+      ->join('users', 'sales.user_id = users.user_id')
+      ->findAll();
+  }
 }

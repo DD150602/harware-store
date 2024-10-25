@@ -21,10 +21,12 @@ class Sales extends BaseController
     $this->product = new Product();
     $this->sale = new Sale();
     $this->saleDetails = new SaleDetails();
+    $this->data['sales'] = $this->sale->getAllSales();
   }
   public function index()
   {
-    return view('Sales/Sales');
+
+    return view('Sales/Sales', $this->data);
   }
 
   public function createView()

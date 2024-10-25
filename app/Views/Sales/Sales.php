@@ -23,7 +23,7 @@
         <div class="col-md-4">
           <div class="card mb-4">
             <div class="card-body">
-              <h5 class="card-title"><?php echo $sale->sale_id; ?></h5>
+              <h5 class="card-title">Sale #<?php echo $sale->sale_id; ?></h5>
               <p class="card-text">
                 <strong>Total:</strong> <?php echo $sale->sale_total; ?><br>
                 <strong>Date:</strong> <?php echo $sale->sale_date; ?><br>
