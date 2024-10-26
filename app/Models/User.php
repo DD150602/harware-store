@@ -18,29 +18,56 @@ class User extends Model
   protected $updatedField = 'user_updated_at';
   protected $deletedField = 'user_deleted_at';
 
-  public function createUser($data)
+  public function getAllUsers()
+  {
+    return  $this->select('user_id, user_name, role_name, user_created_at')
+      ->join('roles', 'users.role_id = roles.role_id')
+      ->where('user_status', true)
+      ->findAll();
+  }
+
+  public function getUser($id)
+  {
+    return $this->select('user_id, user_name, user_lastname, user_email, user_username, users.role_id, role_name, user_status')
+      ->join('roles', 'users.role_id = roles.role_id')
+      ->where('user_id', $id)
+      ->where('user_status', true)
+      ->first();
+  }
+
+  public function createUser(array $data): int
   {
     if ($this->validateUsername($data['user_username'])) {
-      return [
-        'create' => false,
-        'message' => 'El nombre de usuario ya se encuentra registrado'
-      ];
+      return 3;
     }
 
     if ($this->validateEmail($data['user_email'])) {
-      return [
-        'create' => false,
-        'message' => 'El email ya se encuentra registrado'
-      ];
+      return 4;
     }
 
     $hashedPassword = password_hash($data['user_password'], PASSWORD_BCRYPT, ['cost' => 10]);
     $data['user_password'] = $hashedPassword;
     $this->insert($data);
-    return [
-      'create' => true,
-      'message' => 'Usuario creado correctamente'
-    ];
+    return 1;
+  }
+
+  public function updateUser(int $id, array $data): int
+  {
+    $this->update($id, $data);
+    return 1;
+  }
+
+  public function deleteUser($data)
+  {
+    $userId = $data['user_id'];
+    unset($data['user_id']);
+    $this->update($userId, $data);
+    $result = $this->delete($userId);
+    if ($result) {
+      return 5;
+    } else {
+      return 2;
+    }
   }
 
   public function login($data)
