@@ -31,3 +31,9 @@ $routes->get('/Clients/ClientDetails/(:num)', 'Clients::client/$1');
 $routes->post('/Clients/create', 'Clients::newClient');
 $routes->post('/Clients/update', 'Clients::update');
 $routes->post('/Clients/delete/(:num)', 'Clients::delete/$1');
+
+$routes->get('/Purchases', 'Purchases::index');
+$routes->get('/Purchases/PurchaseDetails/(:num)', 'Purchases::purchase/$1');
+$routes->get('/Purchases/create', 'Purchases::create');
+$routes->post('/Purchases/create/newPurchase', 'Purchases::create');
+$routes->post('/Purchases/purchaseInfo', 'Purchases::purchaseInfo');
