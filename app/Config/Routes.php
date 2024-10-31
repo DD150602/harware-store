@@ -34,6 +34,6 @@ $routes->post('/Clients/delete/(:num)', 'Clients::delete/$1');
 
 $routes->get('/Purchases', 'Purchases::index');
 $routes->get('/Purchases/PurchaseDetails/(:num)', 'Purchases::purchase/$1');
-$routes->get('/Purchases/create', 'Purchases::create');
+$routes->get('/Purchases/create', 'Purchases::createView');
 $routes->post('/Purchases/create/newPurchase', 'Purchases::create');
 $routes->post('/Purchases/purchaseInfo', 'Purchases::purchaseInfo');

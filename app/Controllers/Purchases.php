@@ -21,4 +21,9 @@ class Purchases extends BaseController
   {
     return view('Purchases/Purchases', $this->data);
   }
+
+  public function createView()
+  {
+    return view('Purchases/CreatePurchase');
+  }
 }
