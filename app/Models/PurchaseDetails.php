@@ -4,9 +4,9 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class PurchaseDetail extends Model
+class PurchaseDetails extends Model
 {
-  protected $table = 'purchase_detail';
+  protected $table = 'purchase_details';
   protected $primaryKey = 'purchase_detail_id';
   protected $useAutoIncrement = true;
   protected $returnType = 'object';
@@ -17,4 +17,5 @@ class PurchaseDetail extends Model
   protected $createdField = 'purchase_detail_created_at';
   protected $updatedField = 'purchase_detail_updated_at';
   protected $deletedField = 'purchase_detail_deleted_at';
+
 }
