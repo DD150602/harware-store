@@ -39,4 +39,7 @@ $routes->post('/Purchases/create/newPurchase', 'Purchases::create');
 $routes->post('/Purchases/purchaseInfo', 'Purchases::purchaseInfo');
 
 $routes->get('/Suppliers', 'Suppliers::index');
+$routes->get('/Suppliers/SupplierDetails/(:num)', 'Suppliers::supplier/$1');
 $routes->post('/Suppliers/create', 'Suppliers::create');
+$routes->post('/Suppliers/update/(:num)', 'Suppliers::update/$1');
+$routes->post('/Suppliers/delete/(:num)', 'Suppliers::delete/$1');

@@ -24,6 +24,13 @@ class Supplier extends Model
       ->findAll();
   }
 
+  public function getSupplier($id)
+  {
+    return $this->select('supplier_name, supplier_contact, supplier_phone, supplier_address, supplier_id')
+      ->where('supplier_id', $id)
+      ->first();
+  }
+
   public function createSupplier(array $data)
   {
     $dataExists = $this->where('supplier_phone', $data['supplier_phone'])
@@ -39,5 +46,21 @@ class Supplier extends Model
       return 1;
     }
     return 2;
+  }
+
+  public function updateSupplier(int $id, array $data): int
+  {
+    $this->update($id, $data);
+    return 1;
+  }
+
+  public function deleteSupplier($id)
+  {
+    $result = $this->delete($id);
+    if ($result) {
+      return 3;
+    } else {
+      return 2;
+    }
   }
 }
