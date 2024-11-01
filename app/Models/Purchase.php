@@ -17,4 +17,12 @@ class Purchase extends Model
   protected $createdField = 'purchase_date';
   protected $updatedField = 'purchase_updated_at';
   protected $deletedField = 'purchase_deleted_at';
+
+  public function getAllPurchases()
+  {
+    return $this->select('purchases.purchase_id, purchases.purchase_total, purchases.purchase_date, suppliers.supplier_name, users.user_name')
+      ->join('suppliers', 'purchases.supplier_id = suppliers.supplier_id')
+      ->join('users', 'purchases.user_id = users.user_id')
+      ->findAll();
+  }
 }
