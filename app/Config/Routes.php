@@ -37,3 +37,6 @@ $routes->get('/Purchases/PurchaseDetails/(:num)', 'Purchases::purchase/$1');
 $routes->get('/Purchases/create', 'Purchases::createView');
 $routes->post('/Purchases/create/newPurchase', 'Purchases::create');
 $routes->post('/Purchases/purchaseInfo', 'Purchases::purchaseInfo');
+
+$routes->get('/Suppliers', 'Suppliers::index');
+$routes->post('/Suppliers/create', 'Suppliers::create');
