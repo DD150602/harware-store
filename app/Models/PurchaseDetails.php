@@ -18,4 +18,11 @@ class PurchaseDetails extends Model
   protected $updatedField = 'purchase_detail_updated_at';
   protected $deletedField = 'purchase_detail_deleted_at';
 
+  public function getPurchaseDetails($id)
+  {
+    return $this->select('purchase_details.purchase_detail_id, purchase_details.purchase_quantity, purchase_details.purchase_unit_price, purchase_details.purchase_id, purchase_details.product_id, products.product_name')
+      ->join('products', 'purchase_details.product_id = products.product_id')
+      ->where('purchase_id', $id)
+      ->findAll();
+  }
 }

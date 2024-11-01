@@ -25,4 +25,12 @@ class Purchase extends Model
       ->join('users', 'purchases.user_id = users.user_id')
       ->findAll();
   }
+
+  public function getPurchase($id){
+    return $this->select('purchases.purchase_id, purchases.purchase_total, purchases.purchase_date, suppliers.supplier_name, users.user_name')
+      ->join('suppliers', 'purchases.supplier_id = suppliers.supplier_id')
+      ->join('users', 'purchases.user_id = users.user_id')
+      ->where('purchases.purchase_id', $id)
+      ->first();
+  }
 }
