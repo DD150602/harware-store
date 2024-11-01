@@ -31,6 +31,14 @@ class Supplier extends Model
       ->first();
   }
 
+  public function getSupplierToPurchase(array $data)
+  {
+    return $this->select('supplier_name, supplier_phone, supplier_address, supplier_id')
+      ->where('supplier_name', $data['supplier_name'])
+      ->orWhere('supplier_phone', $data['supplier_phone'])
+      ->first();
+  }
+
   public function createSupplier(array $data)
   {
     $dataExists = $this->where('supplier_phone', $data['supplier_phone'])

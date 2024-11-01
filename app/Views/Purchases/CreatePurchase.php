@@ -139,7 +139,7 @@
           if (!empty($supplier_info)) {
             $attributes['hidden'] = true;
           }
-          echo form_open('Purchases/supplierInfo', $attributes); ?>
+          echo form_open('Purchases/SupplierInfo', $attributes); ?>
           <div class="mb-3">
             <label for="supplier_name" class="form-label">Supplier Name</label>
             <input type="text" class="form-control" id="supplier_name" name="supplier_name" placeholder="Enter supplier name" required>
@@ -207,7 +207,7 @@
           <!-- Buttons Section: Create Product and Add Product -->
           <div class="d-flex justify-content-between align-items-center mb-3">
             <!-- Create Product Button (Triggers Modal) -->
-            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#createProductModal">
+            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#createProductModal" <?php echo empty($supplier_info) ? 'disabled' : ''; ?>>
               Create Product
             </button>
 
