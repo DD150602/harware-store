@@ -13,6 +13,7 @@ class Purchases extends BaseController
   protected $purchase;
   protected $purchaseDetails;
   protected $supplier;
+  protected $products;
   protected $categories;
   protected $data = [];
 
@@ -21,6 +22,7 @@ class Purchases extends BaseController
     $this->purchase = new Purchase();
     $this->purchaseDetails = new PurchaseDetails();
     $this->supplier = new Supplier();
+    $this->products = new Product();
     $this->categories = new CategoryModel();
     $this->data['purchases'] = $this->purchase->getAllPurchases();
   }
@@ -50,6 +52,7 @@ class Purchases extends BaseController
     if ($supplier_info) {
       $this->data['supplier_info'] = $supplier_info;
       $this->data['categories'] = $this->categories->getCategories();
+      $this->data['products'] = $this->products->getAllProducts();
     }
     return view('Purchases/CreatePurchase', $this->data);
   }
