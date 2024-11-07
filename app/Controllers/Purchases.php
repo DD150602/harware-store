@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\CategoryModel;
 use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Models\Product;
@@ -12,6 +13,7 @@ class Purchases extends BaseController
   protected $purchase;
   protected $purchaseDetails;
   protected $supplier;
+  protected $categories;
   protected $data = [];
 
   public function __construct()
@@ -19,6 +21,7 @@ class Purchases extends BaseController
     $this->purchase = new Purchase();
     $this->purchaseDetails = new PurchaseDetails();
     $this->supplier = new Supplier();
+    $this->categories = new CategoryModel();
     $this->data['purchases'] = $this->purchase->getAllPurchases();
   }
 
@@ -42,7 +45,12 @@ class Purchases extends BaseController
   public function supplierInfo()
   {
     $dataPost = $this->request->getPost();
-    $this->data['supplier_info'] = $this->supplier->getSupplierToPurchase($dataPost);
+    $supplier_info = $this->supplier->getSupplierToPurchase($dataPost);
+
+    if ($supplier_info) {
+      $this->data['supplier_info'] = $supplier_info;
+      $this->data['categories'] = $this->categories->getCategories();
+    }
     return view('Purchases/CreatePurchase', $this->data);
   }
 }

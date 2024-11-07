@@ -283,6 +283,17 @@
           <label for="new_product_stock" class="form-label">Product Stock</label>
           <input type="number" class="form-control" id="new_product_stock" min="0" required>
         </div>
+        <div class="mb-3">
+          <label for="new_product_category" class="form-label">Product Category</label>
+          <select class="form-select" id="new_product_category" required>
+            <option value="" disabled selected>Select a category</option>
+            <?php if (!empty($categories)) : ?>
+              <?php foreach ($categories as $category) : ?>
+                <option value="<?= $category->category_id ?>"><?= $category->category_name ?></option>
+              <?php endforeach; ?>
+            <?php endif; ?>
+          </select>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
