@@ -11,7 +11,7 @@ class Product extends Model
   protected $useAutoIncrement = true;
   protected $returnType = 'object';
   protected $useSoftDeletes = true;
-  protected $allowedFields = ['product_id', 'product_name', 'product_description', 'product_price', 'product_stock', 'product_status', 'product_annotation', 'category_id', 'supplier_id'];
+  protected $allowedFields = ['product_id', 'product_name', 'product_description', 'product_price', 'product_stock', 'product_status', 'product_annotation', 'category_id', 'supplier_id', 'product_created_by'];
   protected $useTimestamps = true;
   protected $dateFormat = 'datetime';
   protected $createdField = 'product_created_at';

@@ -17,6 +17,12 @@
       <!-- Clients -->
       <a href="<?= base_url('Clients') ?>" class="nav-link text-dark py-2">Clients</a>
 
+      <!-- Purchases -->
+      <a href="<?= base_url('Purchases') ?>" class="nav-link text-dark py-2">Purchases</a>
+
+      <!-- Suppliers -->
+      <a href="<?= base_url('Suppliers') ?>" class="nav-link text-dark py-2">Suppliers</a>
+
       <!-- Settings -->
       <a href="" class="nav-link text-dark py-2">Settings</a>
 
