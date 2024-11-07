@@ -6,24 +6,33 @@
   const productList = []
 
   function createProduct() {
+    const product_name = document.getElementById('new_product_name').value;
+    const product_description = document.getElementById('new_product_description').value;
+    const product_price = parseFloat(document.getElementById('new_product_price').value);
+    const product_stock = parseInt(document.getElementById('new_product_stock').value);
+    const category_id = document.getElementById('new_product_category').value;
 
-    const productName = document.getElementById('new_product_name').value;
-    const productDescription = document.getElementById('new_product_description').value;
-    const productPrice = parseFloat(document.getElementById('new_product_price').value);
-    const productStock = parseInt(document.getElementById('new_product_stock').value);
-
-    if (!productName || isNaN(productPrice) || isNaN(productStock)) {
-      alert("Please fill in all required fields with valid values.");
+    if (!product_name || isNaN(product_price) || isNaN(product_stock)) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Please fill in all required fields with valid values.'
+      })
       return;
     }
 
+    const newProduct = {
+      product_id: Date.now(),
+      product_name,
+      product_description,
+      product_price,
+      product_stock,
+      category_id,
+      productTotal: product_price * product_stock
+    }
 
-    const newOption = document.createElement('option');
-    newOption.value = `new_${Date.now()}`;
-    newOption.textContent = `${productName} - $${productPrice.toFixed(2)}`;
-    newOption.setAttribute('data-price', productPrice);
-
-    document.getElementById('product_select').appendChild(newOption);
+    productList.push(newProduct);
+    insertProduct(newProduct);
 
     document.getElementById('createProductModal').querySelectorAll('input, textarea').forEach(input => input.value = '');
     const modal = bootstrap.Modal.getInstance(document.getElementById('createProductModal'));
@@ -34,44 +43,58 @@
     const productSelected = document.getElementById('product_select');
     const optionSelected = productSelected.options[productSelected.selectedIndex];
 
-    if (!optionSelected.value) return;
+    if (!optionSelected.value) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Please select a product'
+      })
+      return
+    };
 
     const product_id = optionSelected.value;
-    const productName = optionSelected.text.split('-')[0].trim();
-    const unit_price = parseFloat(optionSelected.getAttribute('data-price'));
-    const quantity = parseInt(document.getElementById('product_quantity').value);
+    const product_name = optionSelected.text.split('-')[0].trim();
+    const product_price = parseFloat(optionSelected.getAttribute('data-price'));
+    const product_stock = parseInt(document.getElementById('product_stock').value);
 
-    if (isNaN(quantity) || quantity <= 0) {
-      alert("Please enter a valid quantity.");
+    if (isNaN(product_stock) || product_stock <= 0) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Please enter a valid product_stock'
+      })
       return;
     }
 
-    const productTotal = unit_price * quantity;
+    const productTotal = product_price * product_stock;
 
     const product = {
       product_id,
-      productName,
-      unit_price,
-      quantity,
+      product_name,
+      product_price,
+      product_stock,
       productTotal
     };
     productList.push(product);
+    insertProduct(product);
+  }
 
+  function insertProduct(product) {
     const tableBody = document.getElementById('productTable').getElementsByTagName('tbody')[0];
     const newRow = tableBody.insertRow();
 
     newRow.innerHTML = `
-    <td>${product.productName}</td>
-    <td>$${product.unit_price.toFixed(2)}</td>
-    <td>${product.quantity}</td>
-    <td>$${product.productTotal.toFixed(2)}</td>
+    <td>${product.product_name}</td>
+    <td>$${product.product_price}</td>
+    <td>${product.product_stock}</td>
+    <td>$${product.productTotal}</td>
   `;
 
     totalAmount += product.productTotal;
-    document.getElementById('totalPrice').innerHTML = totalAmount.toFixed(2);
+    document.getElementById('totalPrice').innerHTML = totalAmount;
 
-    document.getElementById('product_quantity').value = 0;
-    productSelected.selectedIndex = 0;
+    document.getElementById('product_stock').value = 0;
+    document.getElementById('product_select').selectedIndex = 0;
   }
 
   function finishPurchase() {
@@ -198,10 +221,10 @@
             </select>
           </div>
 
-          <!-- Product Quantity -->
+          <!-- Product product_stock -->
           <div class="mb-3">
-            <label for="product_quantity" class="form-label">Quantity</label>
-            <input type="number" class="form-control" id="product_quantity" name="product_quantity" min="1" required <?php echo empty($supplier_info) ? 'disabled' : ''; ?>>
+            <label for="product_stock" class="form-label">Quantity</label>
+            <input type="number" class="form-control" id="product_stock" name="product_stock" min="1" required <?php echo empty($supplier_info) ? 'disabled' : ''; ?>>
           </div>
 
           <!-- Buttons Section: Create Product and Add Product -->
