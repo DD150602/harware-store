@@ -3,6 +3,7 @@
 <?= $this->section('scripts') ?>
 <script>
   let totalAmount = 0;
+  let totalAmountWithTax = 0;
   const productList = []
 
   function addProduct() {
@@ -34,7 +35,9 @@
     `
 
     totalAmount += product.productTotal
+    totalAmountWithTax = totalAmount + (totalAmount * 0.19)
     document.getElementById('totalPrice').innerHTML = totalAmount
+    document.getElementById('totalPriceWithTax').innerHTML = totalAmountWithTax
     document.getElementById('product_quantity').value = 0
     productSelected.selectedIndex = 0
   }
@@ -48,7 +51,7 @@
           },
           body: JSON.stringify({
             productList,
-            totalAmount: parseFloat(document.getElementById('totalPrice').textContent),
+            totalAmount: parseFloat(document.getElementById('totalPriceWithTax').textContent),
             clientId: '<?php if (!empty($client_info)) echo $client_info->client_id ?>'
           })
         })
@@ -197,8 +200,9 @@
         </table>
 
         <!-- Total Price section -->
-        <div class="total-section d-flex justify-content-end mt-3">
-          <strong>Total Price: $<span id="totalPrice" class="ms-2">0.00</span></strong>
+        <div class="total-section mt-3">
+          <strong class="text-end d-block">Total Price: $<span id="totalPrice" class="ms-2">0.00</span></strong>
+          <strong class="text-end d-block">Total Price with Tax: $<span id="totalPriceWithTax" class="ms-2">0.00</span></strong>
         </div>
 
         <!-- Buttons Section -->
