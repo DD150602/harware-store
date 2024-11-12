@@ -65,6 +65,12 @@ class Sales extends BaseController
 
     $sale_id = $this->sale->insert($dataToSales);
     foreach ($dataPost->productList as $product) {
+      $product_stock = $this->product->getProduct($product->product_id)->product_stock;
+      if ($product->sale_quantity > $product_stock) {
+        return $this->response->setJSON(['success' => false, 'errorMessage' => "Only $product_stock for product $product->product_name left in stock"]);
+      }
+      $stock_left = $product_stock - $product->sale_quantity;
+      $this->product->update($product->product_id, ['product_stock' => $stock_left]);
       $product->sale_id = $sale_id;
     }
 

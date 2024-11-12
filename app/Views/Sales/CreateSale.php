@@ -44,7 +44,7 @@
 
   function finishSelling() {
     if (productList.length > 0) {
-      fetch('<?= base_url('/Sales/create/newSale') ?>', {
+      fetch('<?= base_url('Sales/create/newSale') ?>', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -70,7 +70,7 @@
             Swal.fire({
               icon: 'error',
               title: 'error',
-              text: 'Sale failed Try again'
+              text: data.errorMessage
             })
           }
         })
@@ -157,7 +157,8 @@
               <option value="" selected disabled>Select a product</option>
               <?php if (!empty($products)) : ?>
                 <?php foreach ($products as $product) : ?>
-                  <option value="<?php echo $product->product_id; ?>" data-price="<?php echo $product->product_price; ?>"><?php echo $product->product_name; ?> - $<?php echo $product->product_price; ?></option>
+                  <option value="<?php echo $product->product_id; ?>" data-price="<?php echo $product->product_price; ?>"><?php echo $product->product_name; ?> - $<?php echo $product->product_price; ?> Stock available: <?php echo $product->product_stock; ?>
+                  </option>
                 <?php endforeach; ?>
               <?php endif; ?>
             </select>
