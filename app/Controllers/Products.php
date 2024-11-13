@@ -31,6 +31,16 @@ class Products extends BaseController
     return view('ProductDetails', $this->data);
   }
 
+  public function filtered()
+  {
+    $filte = $this->request->getPost('filterBy');
+    if ($filte == 0) {
+      $filte = null;
+    }
+    $this->data['products'] = $this->products->getAllProducts($filte);
+    return view('Products', $this->data);
+  }
+
   public function update()
   {
     $rules = [

@@ -18,9 +18,15 @@ class Product extends Model
   protected $updatedField = 'product_updated_at';
   protected $deletedField = 'product_deleted_at';
 
-  public function getAllProducts()
+  public function getAllProducts($filterBy = null)
   {
-    return $this->select('product_name, product_price, product_stock, product_id')
+    $result = $this->select('product_name, product_price, product_stock, product_id, category_name');
+    if (gettype($filterBy) == 'string') {
+      $filters = ['product_name' => $filterBy, 'product_description' => $filterBy, 'category_name' => $filterBy];
+      $result->orLike($filters);
+    }
+    return $result->join('suppliers', 'products.supplier_id = suppliers.supplier_id')
+      ->join('categories', 'products.category_id = categories.category_id')
       ->where('product_status', true)
       ->findAll();
   }
