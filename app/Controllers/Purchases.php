@@ -85,6 +85,9 @@ class Purchases extends BaseController
       $product->purchase_id = $purchase_id;
       $product->purchase_unit_price = $product->product_price;
       $product->purchase_quantity = $product->product_stock;
+
+      $new_total_stock = $productExist->product_stock + $product->product_stock;
+      $this->products->updateProduct(['product_id' => $product->product_id, 'product_stock' => $new_total_stock]);
     }
     $insert = $this->purchaseDetails->insertBatch($dataPost->productList);
 
