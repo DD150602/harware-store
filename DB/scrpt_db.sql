@@ -22,7 +22,7 @@ CREATE TABLE users (
     user_name VARCHAR(50) NOT NULL,
     user_lastname VARCHAR(60) NOT NULL,
     user_email VARCHAR(100) NOT NULL UNIQUE,
-    user_username VARCHAR(40) NOT NULL,
+    user_username VARCHAR(40) NOT NULL UNIQUE,
     user_password VARCHAR(60) NOT NULL,
     user_status BOOLEAN DEFAULT TRUE,
     user_annotation TEXT,
@@ -48,9 +48,11 @@ CREATE TABLE categories (
 CREATE TABLE suppliers (
     supplier_id INT PRIMARY KEY AUTO_INCREMENT,
     supplier_name VARCHAR(255) NOT NULL,
-    supplier_contact VARCHAR(255) NOT NULL,
-    supplier_phone VARCHAR(20) NOT NULL,
+    supplier_contact VARCHAR(255) NOT NULL UNIQUE,
+    supplier_phone VARCHAR(20) NOT NULL UNIQUE,
     supplier_address TEXT,
+    supplier_status BOOLEAN DEFAULT TRUE,
+    supplier_annotation TEXT,
     supplier_created_at DATETIME,
     supplier_updated_at DATETIME,
     supplier_deleted_at DATETIME,
@@ -170,7 +172,7 @@ AFTER UPDATE ON categories
 FOR EACH ROW
 BEGIN
     INSERT INTO audits (audit_type, audit_table, audit_date, audit_detail)
-    VALUES ('UPDATE', 'categories', NOW(), CONCAT('Category updated: ', OLD.category_name, ' to ', NEW.category_name, ' by: ', OLD.category_created_by));
+    VALUES ('UPDATE', 'categories', NOW(), CONCAT('Category updated: ', OLD.category_name, ' TO ', NEW.category_name, ' by: ', OLD.category_created_by));
 END;
 
 -- Trigger for INSERT operation on suppliers
@@ -195,19 +197,19 @@ BEGIN
 
     -- Check for changes and prepare messages
     IF OLD.supplier_name <> NEW.supplier_name THEN
-        SET new_sname = CONCAT('Supplier name changed from ', OLD.supplier_name, ' to ', NEW.supplier_name, '. ');
+        SET new_sname = CONCAT('Supplier name changed FROM ', OLD.supplier_name, ' TO ', NEW.supplier_name, '. ');
     END IF;
 
     IF OLD.supplier_contact <> NEW.supplier_contact THEN
-        SET new_scontact = CONCAT('Supplier contact changed from ', OLD.supplier_contact, ' to ', NEW.supplier_contact, '. ');
+        SET new_scontact = CONCAT('Supplier contact changed FROM ', OLD.supplier_contact, ' TO ', NEW.supplier_contact, '. ');
     END IF;
 
     IF OLD.supplier_phone <> NEW.supplier_phone THEN
-        SET new_sphone = CONCAT('Supplier phone changed from ', OLD.supplier_phone, ' to ', NEW.supplier_phone, '. ');
+        SET new_sphone = CONCAT('Supplier phone changed FROM ', OLD.supplier_phone, ' TO ', NEW.supplier_phone, '. ');
     END IF;
 
     IF OLD.supplier_address <> NEW.supplier_address THEN
-        SET new_saddress = CONCAT('Supplier address changed from ', OLD.supplier_address, ' to ', NEW.supplier_address, '. ');
+        SET new_saddress = CONCAT('Supplier address changed FROM ', OLD.supplier_address, ' TO ', NEW.supplier_address, '. ');
     END IF;
 
     -- Concatenate all changes into one string
@@ -247,15 +249,15 @@ BEGIN
 
     -- Check for changes and prepare messages
     IF OLD.client_name <> NEW.client_name THEN
-        SET new_cname = CONCAT('Client name changed from ', OLD.client_name, ' to ', NEW.client_name, '. ');
+        SET new_cname = CONCAT('Client name changed FROM ', OLD.client_name, ' TO ', NEW.client_name, '. ');
     END IF;
 
     IF OLD.client_phone <> NEW.client_phone THEN
-        SET new_cphone = CONCAT('Client phone changed from ', OLD.client_phone, ' to ', NEW.client_phone, '. ');
+        SET new_cphone = CONCAT('Client phone changed FROM ', OLD.client_phone, ' TO ', NEW.client_phone, '. ');
     END IF;
 
     IF OLD.client_address <> NEW.client_address THEN
-        SET new_caddress = CONCAT('Client address changed from ', OLD.client_address, ' to ', NEW.client_address, '. ');
+        SET new_caddress = CONCAT('Client address changed FROM ', OLD.client_address, ' TO ', NEW.client_address, '. ');
     END IF;
 
     -- Concatenate changes into a single string
@@ -296,33 +298,35 @@ BEGIN
 
     -- Check for changes and prepare messages
     IF OLD.product_name <> NEW.product_name THEN
-        SET new_pname = CONCAT('Product name changed from ', OLD.product_name, ' to ', NEW.product_name, '. ');
+        SET new_pname = CONCAT('Product name changed FROM ', OLD.product_name, ' TO ', NEW.product_name, '. ');
     END IF;
 
     IF OLD.product_description <> NEW.product_description THEN
-        SET new_pdesc = CONCAT('Product description changed from ', OLD.product_description, ' to ', NEW.product_description, '. ');
+        SET new_pdesc = CONCAT('Product description changed FROM ', OLD.product_description, ' TO ', NEW.product_description, '. ');
     END IF;
 
     IF OLD.product_price <> NEW.product_price THEN
-        SET new_pprice = CONCAT('Product price changed from ', OLD.product_price, ' to ', NEW.product_price, '. ');
+        SET new_pprice = CONCAT('Product price changed FROM ', OLD.product_price, ' TO ', NEW.product_price, '. ');
     END IF;
 
     IF OLD.product_stock <> NEW.product_stock THEN
-        SET new_pstock = CONCAT('Product stock changed from ', OLD.product_stock, ' to ', NEW.product_stock, '. ');
+        SET new_pstock = CONCAT('Product stock changed FROM ', OLD.product_stock, ' TO ', NEW.product_stock, '. ');
     END IF;
 
     IF OLD.product_status <> NEW.product_status THEN
-        SET new_pstatus = CONCAT('Product status changed from ', OLD.product_status, ' to ', NEW.product_status, '. ');
+        SET new_pstatus = CONCAT('Product status changed FROM ', OLD.product_status, ' TO ', NEW.product_status, '. ');
     END IF;
 
     IF OLD.product_annotation <> NEW.product_annotation THEN
-        SET new_pannot = CONCAT('Product annotation changed from ', OLD.product_annotation, ' to ', NEW.product_annotation, '. ');
+        SET new_pannot = CONCAT('Product annotation changed FROM ', OLD.product_annotation, ' TO ', NEW.product_annotation, '. ');
     END IF;
 
     -- Concatenate all changes into one string
     SET new_string = CONCAT(
         'Product updated: ',
-        IFNULL(new_pname, ''),
+        NEW.product_id,
+        ', ',
+        IFNULL(new_pname, ''), 
         IFNULL(new_pdesc, ''),
         IFNULL(new_pprice, ''),
         IFNULL(new_pstock, ''),
