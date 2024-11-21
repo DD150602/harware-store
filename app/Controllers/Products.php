@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Product;
 use App\Models\CategoryModel;
+use Dompdf\Dompdf;
 
 class Products extends BaseController
 {
@@ -39,6 +40,17 @@ class Products extends BaseController
     }
     $this->data['products'] = $this->products->getAllProducts($filte);
     return view('Products', $this->data);
+  }
+
+  public function generatePdf()
+  {
+    $domPdf = new Dompdf();
+    $this->data['products'] = $this->products->lowStockProducts();
+    $html = view('ProductsPdf', $this->data);
+
+    $domPdf->loadHtml($html);
+    $domPdf->render();
+    $domPdf->stream('low_stock_products.pdf', ['Attachment' => false]);
   }
 
   public function update()

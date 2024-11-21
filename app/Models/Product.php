@@ -41,6 +41,17 @@ class Product extends Model
       ->first();
   }
 
+  public function lowStockProducts()
+  {
+    return $this->select('product_name, product_description, product_price, product_stock, supplier_name, category_name, CONCAT_WS(" ", user_name, user_lastname) as user')
+      ->join('suppliers', 'products.supplier_id = suppliers.supplier_id')
+      ->join('categories', 'products.category_id = categories.category_id')
+      ->join('users', 'products.product_created_by = users.user_id')
+      ->where('product_status', true)
+      ->where('product_stock <= 10')
+      ->findAll();
+  }
+
   public function updateProduct(array $data): int
   {
     $productId = $data['product_id'];
