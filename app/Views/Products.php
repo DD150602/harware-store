@@ -5,28 +5,31 @@
 <main class="main-content">
   <?= $this->include('Templates/Components/Topbar') ?>
   <h1 class="mb-4">Products</h1>
-  <div class="d-flex justify-content-between mb-3 gap-3">
+  <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-3">
     <!-- Search input -->
     <?php echo form_open('/Products/filtered', ['class' => 'flex-grow-1', 'style' => 'max-width: 300px;']); ?>
-    <div class="input-group mb-3">
+    <div class="input-group">
       <input type="text" class="form-control" id="search" name="filterBy" placeholder="Search products" required>
       <button type="submit" class="btn btn-primary">Search</button>
     </div>
     <?php echo form_close(); ?>
 
+    <!-- Generate low inventory PDF -->
+    <a href="<?php echo base_url('/Products/pdf') ?>" class="btn btn-primary flex-shrink-0" style="white-space: nowrap;">Generate Low Inventory PDF</a>
+
+    <!-- Category filter -->
     <?php echo form_open('/Products/filtered', ['class' => 'flex-grow-1', 'style' => 'max-width: 300px;']); ?>
-    <div class="input-group mb-3">
+    <div class="input-group">
       <select class="form-select" name="filterBy" id="categorySearch">
-        <option value=0 selected>All categories</option>
+        <option value="0" selected>All categories</option>
         <?php foreach ($categories as $category) : ?>
-          <option value=<?= $category->category_name ?>><?= $category->category_name ?></option>
+          <option value="<?= $category->category_name ?>"><?= $category->category_name ?></option>
         <?php endforeach; ?>
       </select>
       <button type="submit" class="btn btn-primary">Search</button>
     </div>
     <?php echo form_close(); ?>
   </div>
-
   <!-- Products card list -->
   <section class="row">
     <?php if (!empty($products)) : ?>
