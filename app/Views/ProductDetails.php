@@ -25,7 +25,7 @@
   <h2 class="text-center mb-5">Product Details</h2>
   <div class="d-flex justify-content-end">
     <!-- Button to trigger Delete Product modal -->
-    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteProductModal">Delete product</button>
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteProductModal" <?= session('login_info')['user_role'] == 'Employee' ? 'hidden' : '' ?>>Delete product</button>
   </div>
 
 
@@ -64,14 +64,14 @@
           </div>
 
           <!-- Product Price -->
-          <div class="col-md-6 mb-3">
+          <div class="col-md-6 mb-3" <?= session('login_info')['user_role'] == 'Employee' ? 'hidden' : '' ?>>
             <label for="product_price" class="form-label">Product Price</label>
             <input type="number" class="form-control" id="product_price" name="product_price" value="<?php echo set_value('product_price', $product->product_price); ?>">
             <?php echo validation_show_error('product_price'); ?>
           </div>
 
           <!-- Product Stock -->
-          <div class="col-md-6 mb-3">
+          <div class="col-md-6 mb-3" <?= session('login_info')['user_role'] == 'Employee' ? 'hidden' : '' ?>>
             <label for="product_stock" class="form-label">Product Stock</label>
             <input type="number" class="form-control" id="product_stock" name="product_stock" value="<?php echo set_value('product_stock', $product->product_stock); ?>">
             <?php echo validation_show_error('product_stock'); ?>
