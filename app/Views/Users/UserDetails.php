@@ -25,7 +25,7 @@
   <h2 class="text-center mb-5">User Details</h2>
   <div class="d-flex justify-content-end">
     <!-- Button to trigger Delete user modal -->
-    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteUserModal">Delete User</button>
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteUserModal" <?= session('login_info')['user_role'] == 'Admin' ? 'hidden' : '' ?>>Delete User</button>
   </div>
 
   <!-- User Details Card -->

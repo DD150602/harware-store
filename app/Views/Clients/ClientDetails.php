@@ -7,7 +7,8 @@
   <h2 class="text-center mb-5">client Details</h2>
   <div class="d-flex justify-content-end">
     <!-- Button to trigger Delete client modal -->
-    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteClientModal">Delete client</button>
+    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteClientModal" <?php if (session('login_info')['user_role'] == 'Admin' || session('login_info')['user_role'] == 'Employee') echo 'hidden'; ?>>
+      Delete client</button>
   </div>
 
 
@@ -38,26 +39,26 @@
           <!-- client Name -->
           <div class="col-md-6 mb-3">
             <label for="client_name" class="form-label">Client Name</label>
-            <input type="text" class="form-control" id="client_name" name="client_name" value="<?php echo set_value('client_name', $client->client_name); ?>">
+            <input type="text" class="form-control" id="client_name" name="client_name" value="<?php echo set_value('client_name', $client->client_name); ?>" <?= session('login_info')['user_role'] == 'Employee' ? 'disabled' : ''; ?>>
             <?php echo validation_show_error('client_name'); ?>
           </div>
 
           <!-- client Phone -->
           <div class="col-md-6 mb-3">
             <label for="client_phone" class="form-label">Client Phone</label>
-            <input type="text" class="form-control" id="client_phone" name="client_phone" value="<?php echo set_value('client_phone', $client->client_phone); ?>">
+            <input type="text" class="form-control" id="client_phone" name="client_phone" value="<?php echo set_value('client_phone', $client->client_phone); ?>" <?= session('login_info')['user_role'] == 'Employee' ? 'disabled' : ''; ?>>
             <?php echo validation_show_error('client_phone'); ?>
           </div>
           <!-- client Address -->
           <div class="col-md-12 mb-3">
             <label for="client_address" class="form-label">Client Address</label>
-            <textarea name="client_address" id="client_address" class="form-control" rows="3" required><?php echo set_value('client_address', $client->client_address); ?></textarea>
+            <textarea name="client_address" id="client_address" class="form-control" rows="3" required <?= session('login_info')['user_role'] == 'Employee' ? 'disabled' : ''; ?>><?php echo set_value('client_address', $client->client_address); ?></textarea>
             <?php echo validation_show_error('client_address'); ?>
           </div>
 
           <!-- Submit Button -->
           <div class="col-12 text-center">
-            <button type="submit" class="btn btn-dark">Update client</button>
+            <button type="submit" class="btn btn-dark" <?= session('login_info')['user_role'] == 'Employee' ? 'disabled' : ''; ?>>Update client</button>
           </div>
 
         </div>

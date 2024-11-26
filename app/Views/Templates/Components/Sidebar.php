@@ -9,7 +9,9 @@
       <a href="<?= base_url('Products') ?>" class="nav-link text-dark py-2">Products</a>
 
       <!-- Users -->
-      <a href="<?= base_url('Users') ?>" class="nav-link text-dark py-2">Users</a>
+      <?php if (session('login_info')['user_role'] != 'Employee') : ?>
+        <a href="<?= base_url('Users') ?>" class="nav-link text-dark py-2">Users</a>
+      <?php endif; ?>
 
       <!-- Sales -->
       <a href="<?= base_url('Sales') ?>" class="nav-link text-dark py-2">Sales</a>
