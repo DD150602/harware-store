@@ -12,6 +12,13 @@ class Products extends BaseController
   protected $categories;
   protected $data = [];
 
+  /**
+   * Constructor method.
+   *
+   * This method initializes the controller's properties and preloads data for products and categories.
+   * It sets up models for handling product and category operations and retrieves all products and
+   * categories from the database for use across the controller.
+   */
   public function __construct()
   {
     $this->products = new Product();
@@ -20,18 +27,46 @@ class Products extends BaseController
     $this->data['products'] = $this->products->getAllProducts();
     $this->data['categories'] = $this->categories->getCategories();
   }
+  /**
+   * Displays the list of products.
+   *
+   * @return \CodeIgniter\HTTP\ResponseInterface
+   */
   public function index()
   {
     return view('Products', $this->data);
   }
 
-  public function product($id)
+  /**
+   * Displays the details of the product with the provided ID.
+   *
+   * This method retrieves the product with the provided ID from the database and
+   * displays its details. The product details are retrieved using the
+   * `Product::getProduct` method and stored in the `$this->data['product']`
+   * property. The details are then displayed using the `ProductDetails` view.
+   *
+   * @param int $id The ID of the product to display.
+   *
+   * @return \CodeIgniter\HTTP\ResponseInterface
+   */
+  public function product(int $id)
   {
 
     $this->data['product'] = $this->products->getProduct($id);
     return view('ProductDetails', $this->data);
   }
 
+  /**
+   * Displays the list of products filtered by category.
+   *
+   * This method retrieves the category ID from the post request and
+   * retrieves all products from the database that match the category ID.
+   * The products are retrieved using the `Product::getAllProducts` method
+   * and stored in the `$this->data['products']` property. The products are
+   * then displayed using the `Products` view.
+   *
+   * @return \CodeIgniter\HTTP\ResponseInterface
+   */
   public function filtered()
   {
     $filte = $this->request->getPost('filterBy');
@@ -42,6 +77,16 @@ class Products extends BaseController
     return view('Products', $this->data);
   }
 
+  /**
+   * Generates a PDF of all products with low stock.
+   *
+   * This method uses the `Dompdf` library to generate a PDF of all products
+   * with low stock. The products are retrieved using the
+   * `Product::lowStockProducts` method and stored in the `$this->data['products']`
+   * property. The PDF is then generated using the `ProductsPdf` view.
+   *
+   * @return \CodeIgniter\HTTP\ResponseInterface
+   */
   public function generatePdf()
   {
     $domPdf = new Dompdf();
@@ -53,6 +98,21 @@ class Products extends BaseController
     $domPdf->stream('low_stock_products.pdf', ['Attachment' => false]);
   }
 
+  /**
+   * Updates a product in the database.
+   *
+   * This method validates the incoming request data against the following rules:
+   * - The product name field must contain only letters.
+   * - The product price field must contain only numbers.
+   * - The product stock field must contain only positive numbers.
+   * - The category name field is required.
+   * If the validation fails, the method redirects back to the previous page
+   * with an error message and the input data.
+   * If the validation succeeds, the method updates the product in the database
+   * and redirects back to the previous page with a success message.
+   *
+   * @return \CodeIgniter\HTTP\ResponseInterface
+   */
   public function update()
   {
     $rules = [
@@ -90,7 +150,18 @@ class Products extends BaseController
     }
   }
 
-  public function delete($id)
+  /**
+   * Deletes a product by marking it as inactive.
+   *
+   * This method validates the provided input, including an optional product annotation,
+   * and updates the product's status to inactive in the database. If the validation fails,
+   * it redirects back with an error message. If the operation succeeds, it redirects to the 
+   * product list with a success message.
+   *
+   * @param int $id The ID of the product to be deleted.
+   * @return \CodeIgniter\HTTP\RedirectResponse Redirects to the appropriate route based on the operation result.
+   */
+  public function delete(int $id)
   {
     $rules = [
       'product_annotation' => [
