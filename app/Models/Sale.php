@@ -18,6 +18,16 @@ class Sale extends Model
   protected $updatedField = 'sale_updated_at';
   protected $deletedField = 'sale_deleted_at';
 
+  /**
+   * Retrieve all sales with details.
+   * 
+   * This method retrieves all sales from the `sales` table, joining related information
+   * from the `clients` and `users` tables to include client names and user names associated
+   * with each sale.
+   * 
+   * @return array Returns an array of sales, each containing `sale_id`, `sale_total`, 
+   *               `sale_date`, `client_name`, and `user_name`.
+   */
   public function getAllSales()
   {
     return $this->select('sale_id, sale_total, sale_date, clients.client_name, users.user_name')
@@ -26,6 +36,19 @@ class Sale extends Model
       ->findAll();
   }
 
+  /**
+   * Retrieve a sale by its ID with detailed information.
+   * 
+   * This method retrieves the details of a specific sale by its `sale_id`, joining 
+   * related data from the `clients` and `users` tables to include the client name 
+   * and user name associated with the sale.
+   * 
+   * @param int $saleId The ID of the sale to retrieve.
+   * 
+   * @return array|null Returns the sale details, including `sale_id`, `sale_total`, 
+   *                    `sale_date`, `client_name`, and `user_name`, or null if no sale 
+   *                    is found with the provided ID.
+   */
   public function getSaleById($saleId)
   {
     return $this->select('sales.sale_id, sale_total, sale_date, clients.client_name, users.user_name')

@@ -9,16 +9,45 @@ class Clients extends BaseController
   protected $client;
   protected $data = [];
 
+  /**
+   * Constructor.
+   *
+   * @return void
+   */
   public function __construct()
   {
     $this->client = new Client();
     $this->data['clients'] = $this->client->getAllClients();
   }
+
+  /**
+   * Displays the list of clients.
+   *
+   * @return \CodeIgniter\HTTP\ResponseInterface
+   */
   public function index()
   {
     return view('Clients/Clients', $this->data);
   }
 
+/**
+ * Handles the creation of a new client.
+ *
+ * This function validates input data for creating a new client, ensuring
+ * that the client name, phone, and address adhere to specified rules.
+ * If validation passes, the client data is saved to the database. 
+ * Otherwise, it redirects back with validation errors.
+ *
+ * Validation rules:
+ * - client_name: must be a string and is required.
+ * - client_phone: must be numeric, required, a natural number, and unique.
+ * - client_address: must be a string.
+ *
+ * On success, the function redirects back with a success message; 
+ * on failure, redirects back with validation errors and input data.
+ *
+ * @return \CodeIgniter\HTTP\RedirectResponse
+ */
   public function newClient()
   {
     $rules = [
@@ -56,12 +85,40 @@ class Clients extends BaseController
     }
   }
 
-  public function client($id)
+  /**
+   * Retrieves a client by id and displays their details.
+   *
+   * The client model is used to retrieve a client by id, and the
+   * client data is passed to the view for display.
+   *
+   * @param int $id The client id to retrieve.
+   *
+   * @return \CodeIgniter\HTTP\ResponseInterface
+   */
+  public function client(int $id)
   {
     $this->data['client'] = $this->client->getClient($id);
     return view('Clients/ClientDetails', $this->data);
   }
 
+  /**
+   * Handles the update of a client.
+   *
+   * This function validates input data for updating a client, ensuring
+   * that the client name, phone, and address adhere to specified rules.
+   * If validation passes, the client data is saved to the database.
+   * Otherwise, it redirects back with validation errors and input data.
+   *
+   * Validation rules:
+   * - client_name: must be a string and is required.
+   * - client_phone: must be numeric, required, a natural number, and unique.
+   * - client_address: must be a string.
+   *
+   * On success, the function redirects back with a success message;
+   * on failure, redirects back with validation errors and input data.
+   *
+   * @return \CodeIgniter\HTTP\RedirectResponse
+   */
   public function update()
   {
     $rules = [
@@ -98,7 +155,18 @@ class Clients extends BaseController
     }
   }
 
-  public function delete($id)
+  /**
+   * Deletes a client by id and redirects back with a message.
+   *
+   * Calls the deleteClient method of the client model and redirects to
+   * the clients page with a message of 1 if the deletion was successful
+   * or 2 if it failed.
+   *
+   * @param int $id The client id to delete.
+   *
+   * @return \CodeIgniter\HTTP\RedirectResponse
+   */
+  public function delete(int $id)
   {
     $response = $this->client->deleteClient($id);
     return redirect()->to('/Clients')->with('message', $response);

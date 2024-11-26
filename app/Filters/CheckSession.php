@@ -8,6 +8,14 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class CheckSession implements FilterInterface
 {
+  /**
+   * Checks if the user is logged in before allowing the request to proceed
+   *
+   * @param RequestInterface $request
+   * @param mixed $arguments
+   *
+   * @return mixed
+   */
   public function before(RequestInterface $request, $arguments = null)
   {
     if (!session('login_info')) {
