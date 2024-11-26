@@ -18,6 +18,12 @@ class CategoryModel extends Model
   protected $updatedField = 'category_updated_at';
   protected $deletedField = 'category_deleted_at';
 
+  /**
+   * Retrieves all categories from the database.
+   *
+   * @return array An array of objects where each object
+   *               contains the properties of a category.
+   */
   public function getCategories()
   {
     return $this->findAll();
