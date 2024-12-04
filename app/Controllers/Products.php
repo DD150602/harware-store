@@ -181,4 +181,23 @@ class Products extends BaseController
       return redirect()->to('/Products')->with('message', $responce);
     }
   }
+
+/**
+ * Creates a new category in the database.
+ *
+ * This method retrieves the category name from the post request and the user ID from the session,
+ * then inserts a new category into the database. Upon success or failure, it redirects back with
+ * a status message indicating the result of the operation.
+ *
+ * @return \CodeIgniter\HTTP\RedirectResponse A redirect response to the previous page with a status message.
+ */
+  public function newCategory()
+  {
+    $data = [
+      'category_name' => $this->request->getPost('categoryName'),
+      'category_created_by' => session('login_info')['user_id']
+    ];
+    $responce = $this->categories->newCategory($data);
+    return redirect()->back()->with('message', $responce);
+  }
 }
