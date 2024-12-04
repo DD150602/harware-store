@@ -15,6 +15,7 @@ $routes->get('/Products/pdf', 'Products::generatePdf');
 $routes->post('/Products/filtered', 'Products::filtered');
 $routes->post('/Products/update/', 'Products::update');
 $routes->post('/Products/delete/(:num)', 'Products::delete/$1');
+$routes->post('/Products/NewCategory', 'Products::newCategory');
 
 $routes->get('/Users', 'Users::index');
 $routes->get('/Users/UserDetails/(:num)', 'Users::user/$1');

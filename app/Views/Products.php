@@ -1,5 +1,25 @@
 <?php $this->extend('Templates/Layout') ?>
 
+<?php $this->section('scripts'); ?>
+<script type="module">
+  let message = <?php echo session('message') ?>;
+  if (message === 1) {
+    Swal.fire({
+      icon: 'success',
+      title: 'Success',
+      text: 'category created successfully'
+    })
+  }
+  if (message === 2) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'Failed creating category'
+    })
+  }
+</script>
+<?php $this->endSection() ?>
+
 <?php $this->section('content'); ?>
 
 <main class="main-content">
@@ -29,6 +49,7 @@
       <button type="submit" class="btn btn-primary">Search</button>
     </div>
     <?php echo form_close(); ?>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newCategoryModal">New Category</button>
   </div>
   <!-- Products card list -->
   <section class="row">
@@ -54,4 +75,28 @@
   </section>
 </main>
 
+<!-- New Category Modal -->
+<div class="modal fade" id="newCategoryModal" tabindex="-1" aria-labelledby="newCategoryModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="newCategoryModalLabel">New Category</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- New category form -->
+        <?php echo form_open('/Products/NewCategory'); ?>
+        <div class="mb-3">
+          <label for="categoryName" class="form-label">Category Name</label>
+          <input type="text" class="form-control" id="categoryName" name="categoryName" required>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save</button>
+        <?php echo form_close(); ?>
+      </div>
+    </div>
+  </div>
+</div>
 <?php $this->endSection(); ?>
