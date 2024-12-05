@@ -7,6 +7,7 @@ use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Models\Product;
 use App\Models\PurchaseDetails;
+use Config\Database as ConfigDatabase;
 
 class Purchases extends BaseController
 {
@@ -16,6 +17,8 @@ class Purchases extends BaseController
   protected $products;
   protected $categories;
   protected $data = [];
+
+  protected $db;
 
   /**
    * Constructor for the Controller.
@@ -32,6 +35,8 @@ class Purchases extends BaseController
     $this->products = new Product();
     $this->categories = new CategoryModel();
     $this->data['purchases'] = $this->purchase->getAllPurchases();
+
+    $this->db = ConfigDatabase::connect();
   }
 
   /**
@@ -122,15 +127,22 @@ class Purchases extends BaseController
   public function create()
   {
     $dataPost = $this->request->getJSON();
+
+    $this->db->transStart();
     $dataToPurchase = [
       'purchase_total' => $dataPost->totalAmount,
       'supplier_id' => $dataPost->supplierId,
       'user_id' => session('login_info')['user_id']
     ];
-
     $purchase_id = $this->purchase->insert($dataToPurchase);
+
     foreach ($dataPost->productList as $product) {
       $productExist = $this->products->getProduct($product->product_id);
+      if ($productExist) {
+        $new_total_stock = $productExist->product_stock + $product->product_stock;
+        $this->products->updateProduct(['product_id' => $product->product_id, 'product_stock' => $new_total_stock]);
+      }
+
       if (!$productExist) {
         unset($product->product_id);
         $newProduct = [
@@ -147,11 +159,14 @@ class Purchases extends BaseController
       $product->purchase_id = $purchase_id;
       $product->purchase_unit_price = $product->product_price;
       $product->purchase_quantity = $product->product_stock;
-
-      $new_total_stock = $productExist->product_stock + $product->product_stock;
-      $this->products->updateProduct(['product_id' => $product->product_id, 'product_stock' => $new_total_stock]);
     }
     $insert = $this->purchaseDetails->insertBatch($dataPost->productList);
+
+    $this->db->transComplete();
+
+    if ($this->db->transStatus() === false) {
+      return $this->response->setJSON(['success' => false]);
+    }
 
     if ($insert) {
       return $this->response->setJSON(['success' => true, 'productList' => $dataPost->productList]);
